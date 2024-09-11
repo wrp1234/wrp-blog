@@ -33,8 +33,11 @@ public abstract class ListTypeHandler <T> extends BaseTypeHandler<List<T>> {
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, List<T> parameter, JdbcType jdbcType) throws SQLException {
         String content = null;
+        if(CollectionUtils.isEmpty(parameter)) {
+            parameter = new ArrayList<>();
+        }
         try {
-            content = CollectionUtils.isEmpty(parameter) ? null : objectMapper.writeValueAsString(parameter);
+            content = objectMapper.writeValueAsString(parameter);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

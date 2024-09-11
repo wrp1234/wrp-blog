@@ -16,4 +16,5 @@ public class UserVo {
     private String email;
     private String openid;
     private String qq;
+    private String token;
 }
