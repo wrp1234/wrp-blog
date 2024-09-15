@@ -1,6 +1,9 @@
 package com.wrp.blog.common.interceptor;
 
+import com.wrp.blog.common.UserHolder;
 import com.wrp.blog.common.exception.BusinessException;
+import com.wrp.blog.domain.User;
+import com.wrp.blog.util.RedisUtils;
 import com.wrp.blog.util.jwt.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +24,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class JwtInterceptor implements HandlerInterceptor {
 
     private JwtUtils jwtUtils;
-
+    private RedisUtils redisUtils;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -39,7 +42,11 @@ public class JwtInterceptor implements HandlerInterceptor {
         String username;
         try{
             username = jwtUtils.parseJWT(token);
-            // TODO redis 获取登录的用户信息,并将用户信息存放在UserHolder中
+            User user = redisUtils.get(username, User.class);
+            if(user == null) {
+                throw new BusinessException("user not login");
+            }
+            UserHolder.setUser(user);
         } catch (Exception e){
             throw new BusinessException("token error");
         }

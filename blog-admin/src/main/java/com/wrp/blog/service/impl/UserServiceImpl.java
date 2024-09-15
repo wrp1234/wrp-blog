@@ -10,6 +10,7 @@ import com.wrp.blog.controller.support.UpdateUserParam;
 import com.wrp.blog.domain.User;
 import com.wrp.blog.mapper.UserMapper;
 import com.wrp.blog.service.UserService;
+import com.wrp.blog.util.RedisUtils;
 import com.wrp.blog.util.jwt.JwtUtils;
 import com.wrp.blog.vo.UserVo;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ import java.util.Objects;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private final JwtUtils jwtUtils;
+    private final RedisUtils redisUtils;
 
     @Override
     public Long register(RegisterUserParam registerUser) {
@@ -76,7 +78,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(!Objects.equals(user.getPassword(),loginUser.getPassword())) {
             throw new BusinessException("密码错误");
         }
-        return convert(user);
+        UserVo userVo = convert(user);
+        // 将用户信息缓存到redis
+        redisUtils.set(loginUser.getUsername(), user);
+        return userVo;
     }
 
     private UserVo convert(User user) {
@@ -91,9 +96,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public Long updateUser(UpdateUserParam updateUser) {
-        UserVo userVo = UserHolder.getUser();
-        User user = getById(userVo.getId());
-        Assert.notNull(user, "can not find user with id:" + userVo.getId());
+        User user = UserHolder.getUser();
+        Assert.notNull(user, "can not find user with id:" + user.getId());
         checkUsernameAndPhone(updateUser.getUsername(), updateUser.getPhone());
 
         doUpdateUser(user, updateUser);

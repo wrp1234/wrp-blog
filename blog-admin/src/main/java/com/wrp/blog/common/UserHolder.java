@@ -1,6 +1,6 @@
 package com.wrp.blog.common;
 
-import com.wrp.blog.vo.UserVo;
+import com.wrp.blog.domain.User;
 
 /**
  * 用户信息的持有者，在每个请求过程中，保存了请求的当前用户信息
@@ -8,13 +8,13 @@ import com.wrp.blog.vo.UserVo;
  * @since 2024-09-09 07:53
  **/
 public class UserHolder {
-    private static final ThreadLocal<UserVo> userThreadLocal = ThreadLocal.withInitial(UserVo::new);
+    private static final ThreadLocal<User> userThreadLocal = ThreadLocal.withInitial(User::new);
 
     /**
      * 获取用户
      * @return 当前请求的用户
      */
-    public static UserVo getUser() {
+    public static User getUser() {
         return userThreadLocal.get();
     }
 
@@ -22,7 +22,7 @@ public class UserHolder {
      * 设置用户
      * @param user 当前请求的用户
      */
-    public static void setUser(UserVo user) {
+    public static void setUser(User user) {
         userThreadLocal.set(user);
     }
 
