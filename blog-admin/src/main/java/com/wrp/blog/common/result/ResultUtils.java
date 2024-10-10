@@ -1,5 +1,7 @@
 package com.wrp.blog.common.result;
 
+import org.springframework.http.HttpStatus;
+
 /**
  * @author wrp
  * @date 2024年08月09日 19:39
@@ -12,15 +14,19 @@ public class ResultUtils {
     }
 
     public static <T> Result<T> success(T data) {
-        return success(ResultState.SUCCESS.getCode(), null, data);
+        return success(HttpStatus.OK.value(), null, data);
     }
 
     public static <T> Result<T> success(int code, String msg, T data) {
         return getResultInstance(code, msg, data);
     }
 
+    public static <T> Result<T> error(HttpStatus status, String msg) {
+        return error(status.value(), msg);
+    }
+
     public static <T> Result<T> error(String msg) {
-        return error(ResultState.RESPONSE_FAIL.getCode(), msg);
+        return error(HttpStatus.INTERNAL_SERVER_ERROR.value(), msg);
     }
 
     public static <T> Result<T> error(int code, String msg) {

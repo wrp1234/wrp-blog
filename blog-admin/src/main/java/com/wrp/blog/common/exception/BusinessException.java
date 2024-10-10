@@ -1,7 +1,7 @@
 package com.wrp.blog.common.exception;
 
-import com.wrp.blog.common.result.ResultState;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 /**
  * 自定义异常
@@ -16,11 +16,11 @@ public class BusinessException extends RuntimeException {
     private final String msg;
 
     public BusinessException() {
-        this(ResultState.RESPONSE_FAIL.getMsg());
+        this("服务器内部异常");
     }
 
     public BusinessException(String msg) {
-        this(ResultState.RESPONSE_FAIL.getCode(), msg);
+        this(HttpStatus.INTERNAL_SERVER_ERROR.value(), msg);
     }
 
     public BusinessException(int code, String msg) {

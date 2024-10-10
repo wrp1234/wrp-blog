@@ -27,7 +27,7 @@ public class CommentController {
         return ResultUtils.success(id);
     }
 
-    @GetMapping()
+    @GetMapping("")
     public Result<IPage<CommentVo>> pageArticle(
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Long pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "10") Long pageSize,
@@ -37,7 +37,7 @@ public class CommentController {
         return ResultUtils.success(page);
     }
 
-    @GetMapping()
+    @GetMapping("self")
     public Result<IPage<CommentVo>> pageComment(
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Long pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "10") Long pageSize,

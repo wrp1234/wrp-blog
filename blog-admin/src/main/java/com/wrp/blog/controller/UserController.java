@@ -9,10 +9,7 @@ import com.wrp.blog.service.UserService;
 import com.wrp.blog.vo.UserVo;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author wrp
@@ -25,20 +22,20 @@ public class UserController {
 
     private UserService userService;
 
-    @PostMapping
-    public Result<Long> register(@Validated RegisterUserParam registerUser) {
+    @PostMapping("register")
+    public Result<Long> register(@RequestBody @Validated RegisterUserParam registerUser) {
         Long id = userService.register(registerUser);
         return ResultUtils.success(id);
     }
 
-    @PostMapping
-    public Result<UserVo> login(@Validated LoginUserParam loginUser) {
+    @PostMapping("login")
+    public Result<UserVo> login(@RequestBody @Validated LoginUserParam loginUser) {
         UserVo userVo = userService.login(loginUser);
         return ResultUtils.success(userVo);
     }
 
     @PutMapping()
-    public Result<Long> updateUser(@Validated UpdateUserParam updateUser) {
+    public Result<Long> updateUser(@RequestBody @Validated UpdateUserParam updateUser) {
         Long id = userService.updateUser(updateUser);
         return ResultUtils.success(id);
     }

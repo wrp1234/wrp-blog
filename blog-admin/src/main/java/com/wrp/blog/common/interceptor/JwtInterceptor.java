@@ -1,5 +1,6 @@
 package com.wrp.blog.common.interceptor;
 
+import com.wrp.blog.common.UrlFilterProperties;
 import com.wrp.blog.common.UserHolder;
 import com.wrp.blog.common.exception.BusinessException;
 import com.wrp.blog.domain.User;
@@ -25,6 +26,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     private JwtUtils jwtUtils;
     private RedisUtils redisUtils;
+    private UrlFilterProperties urlFilterProperties;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -33,6 +35,12 @@ public class JwtInterceptor implements HandlerInterceptor {
             // 当前拦截到的不是动态方法，直接放行
             return true;
         }
+
+        // 白名单直接放行
+        if(whiteListContains(request)) {
+            return true;
+        }
+
         //从请求头中获取令牌
         String token = request.getHeader(jwtUtils.getTokenName());
         if(!StringUtils.hasText(token)) {
@@ -56,5 +64,14 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
 
         return true;
+    }
+
+    private boolean whiteListContains(HttpServletRequest request) {
+        return urlFilterProperties
+                .getWhiteList()
+                .stream()
+                .anyMatch(item->
+                        item.method().equalsIgnoreCase(request.getMethod()) &&
+                        item.url().equals(request.getRequestURI()));
     }
 }

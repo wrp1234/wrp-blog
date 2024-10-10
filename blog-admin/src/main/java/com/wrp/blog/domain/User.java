@@ -2,6 +2,7 @@ package com.wrp.blog.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.wrp.blog.common.enums.UserPost;
 import com.wrp.blog.typeHandler.LongListTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,14 +16,14 @@ import java.util.List;
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("user")
+@TableName("public.user")
 public class User extends BaseEntity {
     private String username;
     private String password;
     /**
      * 身份：学生、职场人员
      */
-    private String post;
+    private UserPost post;
     /**
      * 头像
      */

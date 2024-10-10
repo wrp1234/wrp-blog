@@ -6,7 +6,7 @@ spring:
     password: 123456
   data:
     redis:
-      host: 127.0.0.1
+      host: 172.27.100.217
       port: 6379
       password: redis123456
 auth:

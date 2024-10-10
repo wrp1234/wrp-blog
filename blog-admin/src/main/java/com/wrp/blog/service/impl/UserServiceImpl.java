@@ -10,6 +10,7 @@ import com.wrp.blog.controller.support.UpdateUserParam;
 import com.wrp.blog.domain.User;
 import com.wrp.blog.mapper.UserMapper;
 import com.wrp.blog.service.UserService;
+import com.wrp.blog.util.MyBeanUtils;
 import com.wrp.blog.util.RedisUtils;
 import com.wrp.blog.util.jwt.JwtUtils;
 import com.wrp.blog.vo.UserVo;
@@ -79,6 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException("密码错误");
         }
         UserVo userVo = convert(user);
+        userVo.setToken(jwtUtils.createJWT(user));
         // 将用户信息缓存到redis
         redisUtils.set(loginUser.getUsername(), user);
         return userVo;
@@ -90,14 +92,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         UserVo userVo = new UserVo();
         BeanUtils.copyProperties(user, userVo);
-        userVo.setToken(jwtUtils.createJWT(user));
         return userVo;
     }
 
     @Override
     public Long updateUser(UpdateUserParam updateUser) {
         User user = UserHolder.getUser();
-        Assert.notNull(user, "can not find user with id:" + user.getId());
         checkUsernameAndPhone(updateUser.getUsername(), updateUser.getPhone());
 
         doUpdateUser(user, updateUser);
@@ -105,6 +105,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     private void doUpdateUser(User user, UpdateUserParam updateUser) {
-
+        MyBeanUtils.copyIgnoreNull(updateUser, user);
+        updateById(user);
     }
 }

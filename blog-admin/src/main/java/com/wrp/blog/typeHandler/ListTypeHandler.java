@@ -4,7 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.type.*;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.MappedJdbcTypes;
+import org.apache.ibatis.type.MappedTypes;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -20,7 +23,7 @@ import java.util.List;
  * @since 2024-09-08 21:07
  **/
 @Slf4j
-@MappedJdbcTypes(JdbcType.VARCHAR)  //数据库类型
+@MappedJdbcTypes({JdbcType.VARCHAR, JdbcType.OTHER})  //数据库类型
 @MappedTypes({List.class})          //java数据类型
 public abstract class ListTypeHandler <T> extends BaseTypeHandler<List<T>> {
 
