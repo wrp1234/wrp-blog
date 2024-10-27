@@ -1,6 +1,7 @@
 package com.wrp.blog.common;
 
 import com.wrp.blog.domain.User;
+import org.springframework.core.NamedThreadLocal;
 
 /**
  * 用户信息的持有者，在每个请求过程中，保存了请求的当前用户信息
@@ -8,7 +9,8 @@ import com.wrp.blog.domain.User;
  * @since 2024-09-09 07:53
  **/
 public class UserHolder {
-    private static final ThreadLocal<User> userThreadLocal = ThreadLocal.withInitial(User::new);
+
+    private static final ThreadLocal<User> userThreadLocal = NamedThreadLocal.withInitial("userThreadLocal", ()-> null);
 
     /**
      * 获取用户

@@ -3,6 +3,7 @@ package com.wrp.blog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wrp.blog.common.UserHolder;
+import com.wrp.blog.common.enums.ResultTypeEnum;
 import com.wrp.blog.common.exception.BusinessException;
 import com.wrp.blog.controller.support.LoginUserParam;
 import com.wrp.blog.controller.support.RegisterUserParam;
@@ -44,10 +45,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     private void checkUsernameAndPhone(String username, String phone) {
         if(StringUtils.hasText(username) && getByUsername(username) != null) {
-            throw new BusinessException("用户名已被占用");
+            throw BusinessException.of(ResultTypeEnum.U_USERNAME_USED);
         }
         if(StringUtils.hasText(phone) && getByPhone(phone) != null) {
-            throw new BusinessException("电话已绑定其他账号");
+            throw BusinessException.of(ResultTypeEnum.U_PHONE_USED);
         }
     }
 
@@ -74,10 +75,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public UserVo login(LoginUserParam loginUser) {
         User user = getByUsername(loginUser.getUsername());
         if(user == null) {
-            throw new BusinessException("用户名不存在");
+            throw BusinessException.of(ResultTypeEnum.U_USERNAME_NOT_FOUND);
         }
         if(!Objects.equals(user.getPassword(),loginUser.getPassword())) {
-            throw new BusinessException("密码错误");
+            throw BusinessException.of(ResultTypeEnum.U_PASSWORD_ERROR);
         }
         UserVo userVo = convert(user);
         userVo.setToken(jwtUtils.createJWT(user));

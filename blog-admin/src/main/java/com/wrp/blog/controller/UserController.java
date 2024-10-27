@@ -24,8 +24,7 @@ public class UserController {
 
     @PostMapping("register")
     public Result<Long> register(@RequestBody @Validated RegisterUserParam registerUser) {
-        Long id = userService.register(registerUser);
-        return ResultUtils.success(id);
+        return ResultUtils.success(userService.register(registerUser));
     }
 
     @PostMapping("login")
