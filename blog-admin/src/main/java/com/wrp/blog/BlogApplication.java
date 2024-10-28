@@ -1,7 +1,9 @@
 package com.wrp.blog;
 
+import com.wrp.blog.util.SpringContextUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author wrp
@@ -11,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BlogApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BlogApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(BlogApplication.class, args);
+        SpringContextUtils.setApplicationContext(context);
     }
 }

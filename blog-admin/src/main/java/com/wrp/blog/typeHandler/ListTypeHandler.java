@@ -3,6 +3,7 @@ package com.wrp.blog.typeHandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wrp.blog.util.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
@@ -27,20 +28,14 @@ import java.util.List;
 @MappedTypes({List.class})          //java数据类型
 public abstract class ListTypeHandler <T> extends BaseTypeHandler<List<T>> {
 
-    private final ObjectMapper objectMapper;
-
-    public ListTypeHandler(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, List<T> parameter, JdbcType jdbcType) throws SQLException {
-        String content = null;
+        String content;
         if(CollectionUtils.isEmpty(parameter)) {
             parameter = new ArrayList<>();
         }
         try {
-            content = objectMapper.writeValueAsString(parameter);
+            content = SpringContextUtils.getBean(ObjectMapper.class).writeValueAsString(parameter);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -64,7 +59,8 @@ public abstract class ListTypeHandler <T> extends BaseTypeHandler<List<T>> {
 
     private List<T> getListByJsonArrayString(String content) {
         try {
-            return StringUtils.hasText(content) ?  objectMapper.readValue(content, specificType()): new ArrayList<>();
+            return StringUtils.hasText(content) ?  SpringContextUtils.getBean(ObjectMapper.class)
+                    .readValue(content, specificType()): new ArrayList<>();
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

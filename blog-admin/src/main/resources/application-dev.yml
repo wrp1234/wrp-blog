@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /api
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -12,8 +16,11 @@ spring:
 auth:
   jwt:
     # 设置jwt签名加密时使用的秘钥   HMAC-SHA算法32字节
-    secret-key: wejr8293nhg
+    secret-key: wejr8293nhgNDCVe98utnj83iomdfvghu8ghbnwe4tg34
     # 设置jwt过期时间 毫秒
     ttl: 7200000
     # 设置前端传递过来的令牌名称
-    token-name: token
+    token-name: Token
+
+file:
+  directory: D:\temp\blog-pic

@@ -1,6 +1,6 @@
 package com.wrp.blog.common.exception;
 
-import com.wrp.blog.common.enums.ResultTypeEnum;
+import com.wrp.blog.common.enums.ResultType;
 import lombok.Getter;
 
 /**
@@ -11,13 +11,13 @@ import lombok.Getter;
 @Getter
 public class BusinessException extends RuntimeException {
 
-   private final ResultTypeEnum resultType;
+   private final ResultType resultType;
 
-    public BusinessException(ResultTypeEnum resultType) {
+    public BusinessException(ResultType resultType) {
         this.resultType = resultType;
     }
 
-    public static BusinessException of(ResultTypeEnum resultType) {
+    public static BusinessException of(ResultType resultType) {
         return new BusinessException(resultType);
     }
 }

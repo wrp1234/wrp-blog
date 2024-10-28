@@ -17,6 +17,6 @@ url:
   filter:
     white-list:
       - method: POST
-        url: /usr/register
+        url: /api/user/register
       - method: POST
-        url: /usr/login
+        url: /api/user/login

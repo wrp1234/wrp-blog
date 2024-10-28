@@ -8,7 +8,7 @@ import lombok.Data;
  **/
 @Data
 public class UserVo {
-    private Long id;
+    private Integer id;
     private String username;
     private String post;
     private String photo;
@@ -17,4 +17,5 @@ public class UserVo {
     private String openid;
     private String qq;
     private String token;
+    private String description;
 }

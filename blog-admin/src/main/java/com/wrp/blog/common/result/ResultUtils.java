@@ -1,11 +1,10 @@
 package com.wrp.blog.common.result;
 
-import org.springframework.http.HttpStatus;
+import com.wrp.blog.common.enums.ResultType;
 
 /**
  * @author wrp
- * @date 2024年08月09日 19:39
- * @since 1.0.0
+ * @since 2024年08月09日 19:39
  */
 public class ResultUtils {
 
@@ -14,23 +13,15 @@ public class ResultUtils {
     }
 
     public static <T> Result<T> success(T data) {
-        return success(HttpStatus.OK.value(), null, data);
+        return success(ResultType.OK.getCode(), null, data);
     }
 
     public static <T> Result<T> success(int code, String msg, T data) {
         return getResultInstance(code, msg, data);
     }
 
-    public static <T> Result<T> error(HttpStatus status, String msg) {
-        return error(status.value(), msg);
-    }
-
-    public static <T> Result<T> error(String msg) {
-        return error(HttpStatus.INTERNAL_SERVER_ERROR.value(), msg);
-    }
-
-    public static <T> Result<T> error(int code, String msg) {
-        return getResultInstance(code, msg, null);
+    public static <T> Result<T> error(ResultType resultType) {
+        return getResultInstance(resultType.getCode(), resultType.getMessage(), null);
     }
 
     private static <T> Result<T> getResultInstance(int code, String msg, T data) {

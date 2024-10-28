@@ -1,12 +1,8 @@
 package com.wrp.blog.domain;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.wrp.blog.typeHandler.StringListTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 /**
  * 文章
@@ -15,32 +11,18 @@ import java.util.List;
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("article")
+@TableName(value = "public.article", autoResultMap = true)
 public class Article extends BaseEntity {
     private String title;
-    /**
-     * 摘要内容
-     */
-    private String summary;
     /**
      * 主体内容
      */
     private String content;
-    private Long authorId;
-    @TableField(typeHandler = StringListTypeHandler.class)
-    private List<String> tags;
+    private String description;
+    private Integer imgId;
+    private Integer authorId;
 
-    /**
-     * 是否发表
-     */
-    private Boolean published;
-    /**
-     * 是否公开
-     */
-    private Boolean exposed;
-
-    /**
-     * 喜欢数
-     */
-    private Long stars;
+    private Integer views;
+    private Integer comments;
+    private Integer likes;
 }

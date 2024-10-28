@@ -1,6 +1,7 @@
 package com.wrp.blog.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.wrp.blog.common.enums.AttachmentType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,16 +12,11 @@ import lombok.EqualsAndHashCode;
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("attachment")
+@TableName(value = "public.attachment", autoResultMap = true)
 public class Attachment extends BaseEntity {
     private String originalName;
-    private String fileName;
-    private String contentType;
+    private AttachmentType type;
     private String filePath;
-    private Long size;
-    /**
-     * 解决文件重复上传的问题
-     */
-    private String md5;
-    private Long userId;
+    private int size;
+    private Integer userId;
 }

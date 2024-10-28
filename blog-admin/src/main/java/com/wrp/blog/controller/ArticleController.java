@@ -29,8 +29,13 @@ public class ArticleController {
         return ResultUtils.success(id);
     }
 
+    @GetMapping()
+    public Result<ArticleVo> detail(@RequestParam("id") Integer id) {
+        return ResultUtils.success(articleService.detail(id));
+    }
+
     @DeleteMapping("{id}")
-    public Result<Void> deleteArticle(@PathVariable("id") Long id) {
+    public Result<Void> deleteArticle(@PathVariable("id") Integer id) {
         articleService.deleteArticle(id);
         return ResultUtils.success();
     }
@@ -48,24 +53,23 @@ public class ArticleController {
     }
 
     @PostMapping("star/{id}")
-    public Result<Long> star(@PathVariable("id") Long id) {
+    public Result<Long> star(@PathVariable("id") Integer id) {
         Long stars = articleService.star(id);
         return ResultUtils.success(stars);
     }
 
     @PostMapping("/cancel/star/{id}")
-    public Result<Long> cancelStar(@PathVariable("id") Long id) {
+    public Result<Long> cancelStar(@PathVariable("id") Integer id) {
         Long stars = articleService.cancelStar(id);
         return ResultUtils.success(stars);
     }
 
-    @GetMapping()
+    @GetMapping("list")
     public Result<IPage<ArticleVo>> page(
-            @RequestParam(value = "pageNo", required = false, defaultValue = "1") Long pageNo,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") Long pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "10") Long pageSize,
-            @RequestParam(value = "value") String value
-    ) {
-        IPage<ArticleVo> page = articleService.pageArticle(pageNo, pageSize, value);
+            @RequestParam(value = "keyword", required = false) String keyword) {
+        IPage<ArticleVo> page = articleService.pageArticle(pageNo, pageSize, keyword);
         return ResultUtils.success(page);
     }
 
@@ -73,8 +77,7 @@ public class ArticleController {
     public Result<IPage<ArticleVo>> selfArticle(
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Long pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "10") Long pageSize,
-            @RequestParam(value = "value") String value
-    ) {
+            @RequestParam(value = "value") String value) {
         IPage<ArticleVo> page = articleService.selfArticle(pageNo, pageSize, value);
         return ResultUtils.success(page);
     }

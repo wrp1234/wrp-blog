@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
  **/
 @Data
 public class BaseEntity {
-    @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    @TableId(type = IdType.AUTO)
+    private Integer id;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)

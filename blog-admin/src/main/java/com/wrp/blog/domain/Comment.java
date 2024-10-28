@@ -14,12 +14,7 @@ import lombok.EqualsAndHashCode;
 @TableName("comment")
 public class Comment extends BaseEntity {
     private String content;
-    private Long userId;
-    private Long articleId;
-    private Long parentId;
-
-    /**
-     * 点赞数
-     */
-    private Long stars;
+    private Integer userId;
+    private Integer articleId;
+    private Integer parentId;
 }

@@ -3,7 +3,7 @@ package com.wrp.blog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wrp.blog.common.UserHolder;
-import com.wrp.blog.common.enums.ResultTypeEnum;
+import com.wrp.blog.common.enums.ResultType;
 import com.wrp.blog.common.exception.BusinessException;
 import com.wrp.blog.controller.support.LoginUserParam;
 import com.wrp.blog.controller.support.RegisterUserParam;
@@ -35,7 +35,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final RedisUtils redisUtils;
 
     @Override
-    public Long register(RegisterUserParam registerUser) {
+    public Integer register(RegisterUserParam registerUser) {
         // 1. 校验用户名、手机号是否已被使用
         checkUsernameAndPhone(registerUser.getUsername(), registerUser.getPhone());
         // 2. 注册用户
@@ -45,10 +45,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     private void checkUsernameAndPhone(String username, String phone) {
         if(StringUtils.hasText(username) && getByUsername(username) != null) {
-            throw BusinessException.of(ResultTypeEnum.U_USERNAME_USED);
+            throw BusinessException.of(ResultType.U_USERNAME_USED);
         }
         if(StringUtils.hasText(phone) && getByPhone(phone) != null) {
-            throw BusinessException.of(ResultTypeEnum.U_PHONE_USED);
+            throw BusinessException.of(ResultType.U_PHONE_USED);
         }
     }
 
@@ -75,10 +75,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public UserVo login(LoginUserParam loginUser) {
         User user = getByUsername(loginUser.getUsername());
         if(user == null) {
-            throw BusinessException.of(ResultTypeEnum.U_USERNAME_NOT_FOUND);
+            throw BusinessException.of(ResultType.U_USERNAME_NOT_FOUND);
         }
         if(!Objects.equals(user.getPassword(),loginUser.getPassword())) {
-            throw BusinessException.of(ResultTypeEnum.U_PASSWORD_ERROR);
+            throw BusinessException.of(ResultType.U_PASSWORD_ERROR);
         }
         UserVo userVo = convert(user);
         userVo.setToken(jwtUtils.createJWT(user));
@@ -97,7 +97,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Long updateUser(UpdateUserParam updateUser) {
+    public Integer updateUser(UpdateUserParam updateUser) {
         User user = UserHolder.getUser();
         checkUsernameAndPhone(updateUser.getUsername(), updateUser.getPhone());
 

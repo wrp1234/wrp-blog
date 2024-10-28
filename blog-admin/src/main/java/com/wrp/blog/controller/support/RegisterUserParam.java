@@ -27,4 +27,5 @@ public class RegisterUserParam {
     private String email;
     @Length(min = 5, max = 11, message = "qq号格式错误")
     private String qq;
+    private String description;
 }

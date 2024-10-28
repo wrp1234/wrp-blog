@@ -24,7 +24,7 @@ public interface ArticleService extends IService<Article> {
      * 删除文章
      * @param id 文章id
      */
-    void deleteArticle(Long id);
+    void deleteArticle(Integer id);
 
     /**
      * 更新文章的内容（标题、摘要、正文、标签）
@@ -45,23 +45,23 @@ public interface ArticleService extends IService<Article> {
      * @param id 文章id
      * @return 最新的star数
      */
-    Long star(Long id);
+    Long star(Integer id);
 
     /**
      * 取消喜欢
      * @param id 文章id
      * @return 最新的star数
      */
-    Long cancelStar(Long id);
+    Long cancelStar(Integer id);
 
     /**
      * 分页查询所有的文章
      * @param pageNo 页码
      * @param pageSize 分页大小
-     * @param value 模糊查询，支持标题、摘要
+     * @param keyword 模糊查询，支持标题、摘要
      * @return 文章列表
      */
-    IPage<ArticleVo> pageArticle(Long pageNo, Long pageSize, String value);
+    IPage<ArticleVo> pageArticle(Long pageNo, Long pageSize, String keyword);
 
     /**
      * 分页查询自己的文章
@@ -71,4 +71,6 @@ public interface ArticleService extends IService<Article> {
      * @return 文章列表
      */
     IPage<ArticleVo> selfArticle(Long pageNo, Long pageSize, String value);
+
+    ArticleVo detail(Integer id);
 }

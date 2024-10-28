@@ -12,13 +12,13 @@ import lombok.Getter;
 @Getter
 public class Result<T> {
     private final int code;
-    private final String msg;
+    private final String message;
     private final T data;
     private final long timestamp;
 
-    public Result(int code, String msg, T data) {
+    public Result(int code, String message, T data) {
         this.code = code;
-        this.msg = msg;
+        this.message = message;
         this.data = data;
         this.timestamp = System.currentTimeMillis();
     }

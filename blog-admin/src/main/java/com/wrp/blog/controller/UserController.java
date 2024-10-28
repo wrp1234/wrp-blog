@@ -23,7 +23,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("register")
-    public Result<Long> register(@RequestBody @Validated RegisterUserParam registerUser) {
+    public Result<Integer> register(@RequestBody @Validated RegisterUserParam registerUser) {
         return ResultUtils.success(userService.register(registerUser));
     }
 
@@ -34,9 +34,8 @@ public class UserController {
     }
 
     @PutMapping()
-    public Result<Long> updateUser(@RequestBody @Validated UpdateUserParam updateUser) {
-        Long id = userService.updateUser(updateUser);
-        return ResultUtils.success(id);
+    public Result<Integer> updateUser(@RequestBody @Validated UpdateUserParam updateUser) {
+        return ResultUtils.success(userService.updateUser(updateUser));
     }
 
 }

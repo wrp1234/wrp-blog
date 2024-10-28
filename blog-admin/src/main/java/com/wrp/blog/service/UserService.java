@@ -18,7 +18,7 @@ public interface UserService extends IService<User> {
      * @param registerUser 用户资料
      * @return 用户id
      */
-    Long register(RegisterUserParam registerUser);
+    Integer register(RegisterUserParam registerUser);
 
     /**
      * 登录
@@ -32,5 +32,5 @@ public interface UserService extends IService<User> {
      * @param updateUser 用户基本信息
      * @return 用户id
      */
-    Long updateUser(UpdateUserParam updateUser);
+    Integer updateUser(UpdateUserParam updateUser);
 }
